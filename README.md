@@ -1,1 +1,1 @@
-# furniture_store
+# Furniture Store
