@@ -7,6 +7,7 @@ interface ProductData {
     name: string;
     imageUrl: string;
     price: number;
+    stock: number;
 }
 
 function Products() {
@@ -22,7 +23,7 @@ function Products() {
     return (
         <main className={styles.productsList}>
             {products.map((item) => (
-                <Product key={item._id} _id={item._id} name={item.name} imageUrl={item.imageUrl} price={item.price} />
+                <Product key={item._id} _id={item._id} name={item.name} imageUrl={item.imageUrl} stock={item.stock} price={item.price} />
             ))}
         </main>
     );

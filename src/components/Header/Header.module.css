@@ -4,7 +4,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
     width: 100%;
-    border-bottom: 1px solid #eaeaea;
+    color: #fff;
+    background-color: #071952;
 }

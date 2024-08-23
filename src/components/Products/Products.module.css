@@ -1,8 +1,7 @@
 .productsList {
     height: 80vh;
-    overflow-y: scroll;
-    width: 100%;
+    width: 70%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
-    align-items: center;
 }
