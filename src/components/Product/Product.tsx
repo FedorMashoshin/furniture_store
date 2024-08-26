@@ -1,39 +1,69 @@
-import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { CardActionArea } from "@mui/material";
 import React from "react";
-import styles from "./Product.module.css";
+import Divider from "@mui/material/Divider";
+import GradeIcon from "@mui/icons-material/Grade";
+import Box from "@mui/material/Box";
 
+interface Rating {
+    average: number;
+    reviews: number;
+}
 interface Product {
     _id: string;
     name: string;
     imageUrl: string;
     price: number;
     stock: number;
+    ratings: Rating;
 }
 
-const Product: React.FC<Product> = ({ _id, name, imageUrl, stock, price }) => {
+const Product: React.FC<Product> = ({ _id, name, imageUrl, stock, price, ratings }) => {
     let stockMessage;
-    let priceStyle;
+    let stockColor;
 
     if (stock > 10) {
-        stockMessage = <span className={styles.stock}>In Stock</span>;
-        priceStyle = styles.inStock;
+        stockMessage = <span>In Stock</span>;
+        stockColor = "green";
     } else if (stock > 0 && stock <= 10) {
-        stockMessage = <span className={styles.stock}>Low Stock</span>;
-        priceStyle = styles.lowStock;
+        stockMessage = <span>Low Stock</span>;
+        stockColor = "orange";
     } else {
-        stockMessage = <span className={styles.stock}>Out of Stock</span>;
-        priceStyle = styles.outOfStock;
+        stockMessage = <span>Out of stock</span>;
+        stockColor = "red";
     }
 
     return (
-        <div key={_id} className={styles.productCard}>
-            <img className={styles.productImage} src={imageUrl} alt={name} />
-            <p className={styles.productName}>{name}</p>
-            <h4 className={styles.productPrice}>${price.toFixed(2)}</h4>
-            <p>
-                {stockMessage}: <span className={priceStyle}>{stock}</span>
-            </p>
-        </div>
+        <Card key={_id} sx={{ width: 360, textAlign: "center", margin: 2 }}>
+            <CardActionArea>
+                <CardMedia component="img" image={imageUrl} alt={name} sx={{ scale: 0.7 }} />
+                <Divider>
+                    <Typography variant="h5" sx={{ fontWeight: 100 }}>
+                        {name}
+                    </Typography>
+                </Divider>
+                <CardContent>
+                    <Typography sx={{ margin: 1.5 }} variant="h4" color="text.primary">
+                        ${price.toFixed(2)}
+                    </Typography>
+                    <Typography sx={{ fontWeight: 100 }} variant="h6" color="text.secondary">
+                        {stockMessage}:{" "}
+                        <Typography sx={{ fontSize: "20px" }} component="span" color={stockColor}>
+                            {stock}
+                        </Typography>
+                    </Typography>
+                    <Box sx={{ display: "flex", mt: 2, alignItems: "center", justifyContent: "center" }}>
+                        <GradeIcon sx={{ color: "orange", mr: 1, scale: 1.2 }} />
+                        <Typography variant="h6">
+                            {ratings.average} ({ratings.reviews})
+                        </Typography>
+                    </Box>
+                </CardContent>
+            </CardActionArea>
+        </Card>
     );
 };
 
