@@ -1,22 +1,10 @@
 import { useState, useEffect } from "react";
 import Product from "../Product/Product";
 import styles from "./Products.module.css";
-
-interface Rating {
-    average: number;
-    reviews: number;
-}
-interface ProductData {
-    _id: string;
-    name: string;
-    imageUrl: string;
-    price: number;
-    stock: number;
-    ratings: Rating;
-}
+import { IProduct } from "../../interfaces/Product";
 
 function Products() {
-    const [products, setProducts] = useState<ProductData[]>([]);
+    const [products, setProducts] = useState<IProduct[]>([]);
 
     useEffect(() => {
         fetch("http://localhost:4500/api/furniture")
