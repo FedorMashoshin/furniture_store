@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const app = express();
-const port = process.env.PORT || 4500;
+const port = process.env.PORT || 9000;
 const mongoURI = "mongodb+srv://fmashoshin:JtmDkoWiGcDk5pyY@mashoshin.jglfepn.mongodb.net/furniture_store?retryWrites=true&w=majority";
 
 // Connect to MongoDB
