@@ -12,7 +12,6 @@ function Products() {
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
-        console.log(searchTerm);
     };
     const [products, setProducts] = useState<IProduct[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -45,6 +44,8 @@ function Products() {
         },
     });
 
+    const filteredProducts = products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
     if (isLoading) return <CircularProgress />;
     if (error) return <div>Error: {error}</div>;
 
@@ -52,7 +53,7 @@ function Products() {
         <ThemeProvider theme={theme}>
             <TextField id="outlined-basic" label="Search" variant="outlined" value={searchTerm} onChange={handleSearch} margin="normal" sx={{ width: "30%" }} />
             <main className={styles.productsList}>
-                {products.map((item) => (
+                {filteredProducts.map((item) => (
                     <Product key={item._id} {...item} />
                 ))}
             </main>
