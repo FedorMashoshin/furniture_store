@@ -46,7 +46,7 @@ const Product = (props: ProductProps) => {
                             size="small"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                props.onTagClick(tag);
+                                props.onTagClick(tag); // Call the onTagClick prop function
                             }}
                             clickable
                         />
