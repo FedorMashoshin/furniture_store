@@ -11,6 +11,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import Header from "../Header/Header";
+// Add these imports
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 
 function Products() {
     const [searchTerm, setSearchTerm] = useState("");
@@ -23,6 +27,9 @@ function Products() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Add this state for managing tabs
+    const [currentTab, setCurrentTab] = useState<string>("all");
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -31,6 +38,8 @@ function Products() {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
+                // Add this console log to check the fetched data
+                console.log("Fetched products:", data);
                 setProducts(data);
             } catch (err) {
                 setError(`There was an error fetching the products: ${err instanceof Error ? err.message : String(err)}`);
@@ -55,11 +64,22 @@ function Products() {
         },
     });
 
+    // Add this function to handle tab changes
+    const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+        setCurrentTab(newValue);
+    };
+
+    // Modify the filteredProducts logic to include category filtering and add console logging
     const filteredProducts = products.filter((product) => {
         const productTags = product.tags || [];
         const productName = product.name.toLowerCase();
-        return productName.includes(searchTerm.toLowerCase()) || productTags.includes(searchTerm.toLowerCase());
+        const matchesSearch = productName.includes(searchTerm.toLowerCase()) || productTags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+        const matchesCategory = currentTab === "all" || product.category?.toLowerCase() === currentTab.toLowerCase();
+        return matchesSearch && matchesCategory;
     });
+
+    // Add this console log to check filtered products
+    console.log("Filtered products:", filteredProducts);
 
     if (isLoading) return <CircularProgress />;
     if (error) return <div>Error: {error}</div>;
@@ -74,6 +94,34 @@ function Products() {
         <>
             <Header />
             <ThemeProvider theme={theme}>
+                {/* Updated Tabs component with bottom border */}
+                <Box sx={{ width: "70%", margin: "0 auto", mb: 2 }}>
+                    <Tabs
+                        value={currentTab}
+                        onChange={handleTabChange}
+                        aria-label="product category tabs"
+                        variant="fullWidth"
+                        sx={{
+                            "& .MuiTabs-flexContainer": {
+                                justifyContent: "space-between",
+                            },
+                            "& .MuiTabs-indicator": {
+                                backgroundColor: "primary.main",
+                                height: 3,
+                            },
+                            borderBottom: 1,
+                            borderColor: "divider",
+                        }}
+                    >
+                        <Tab label="All" value="all" />
+                        <Tab label="Office" value="office" />
+                        <Tab label="Living Room" value="living room" />
+                        <Tab label="Bedroom" value="bedroom" />
+                        <Tab label="Dining Room" value="dining room" />
+                        <Tab label="Kids Room" value="kids room" />
+                    </Tabs>
+                </Box>
+
                 <TextField
                     id="outlined-basic"
                     label="Search"
@@ -95,9 +143,7 @@ function Products() {
                     }}
                 />
                 <main className={styles.productsList}>
-                    {filteredProducts.map((item) => (
-                        <Product key={item._id} {...item} onTagClick={handleTagClick} />
-                    ))}
+                    {filteredProducts.length > 0 ? filteredProducts.map((item) => <Product key={item._id} {...item} onTagClick={handleTagClick} />) : <p>No products found for this category.</p>}
                 </main>
             </ThemeProvider>
         </>
