@@ -10,6 +10,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
+import Header from "../Header/Header";
 
 function Products() {
     const [searchTerm, setSearchTerm] = useState("");
@@ -70,33 +71,36 @@ function Products() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <TextField
-                id="outlined-basic"
-                label="Search"
-                variant="outlined"
-                value={searchTerm}
-                onChange={handleSearch}
-                margin="normal"
-                sx={{ width: "30%" }}
-                inputRef={searchInputRef}
-                // Add InputAdornment with clear button
-                InputProps={{
-                    endAdornment: searchTerm && (
-                        <InputAdornment position="end">
-                            <IconButton aria-label="clear search" onClick={handleClearSearch} edge="end">
-                                <ClearIcon />
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-            />
-            <main className={styles.productsList}>
-                {filteredProducts.map((item) => (
-                    <Product key={item._id} {...item} onTagClick={handleTagClick} />
-                ))}
-            </main>
-        </ThemeProvider>
+        <>
+            <Header />
+            <ThemeProvider theme={theme}>
+                <TextField
+                    id="outlined-basic"
+                    label="Search"
+                    variant="outlined"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    margin="normal"
+                    sx={{ width: "30%" }}
+                    inputRef={searchInputRef}
+                    // Add InputAdornment with clear button
+                    InputProps={{
+                        endAdornment: searchTerm && (
+                            <InputAdornment position="end">
+                                <IconButton aria-label="clear search" onClick={handleClearSearch} edge="end">
+                                    <ClearIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+                <main className={styles.productsList}>
+                    {filteredProducts.map((item) => (
+                        <Product key={item._id} {...item} onTagClick={handleTagClick} />
+                    ))}
+                </main>
+            </ThemeProvider>
+        </>
     );
 }
 
