@@ -81,7 +81,7 @@ function Products() {
                     value={searchTerm}
                     onChange={handleSearch}
                     margin="normal"
-                    sx={{ width: "30%" }}
+                    sx={{ width: "30%", backgroundColor: "white" }}
                     inputRef={searchInputRef}
                     // Add InputAdornment with clear button
                     InputProps={{
