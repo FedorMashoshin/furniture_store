@@ -26,7 +26,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                     width: 900,
                     maxHeight: "90vh",
                     bgcolor: "background.paper",
-                    borderRadius: "10px",
+                    borderRadius: 5,
                     boxShadow: 24,
                     p: 4,
                     overflow: "auto",

@@ -65,11 +65,10 @@ function Products() {
     });
 
     // Add this function to handle tab changes
-    const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
         setCurrentTab(newValue);
     };
 
-    // Modify the filteredProducts logic to include category filtering and add console logging
     const filteredProducts = products.filter((product) => {
         const productTags = product.tags || [];
         const productName = product.name.toLowerCase();
@@ -77,9 +76,6 @@ function Products() {
         const matchesCategory = currentTab === "all" || product.category?.toLowerCase() === currentTab.toLowerCase();
         return matchesSearch && matchesCategory;
     });
-
-    // Add this console log to check filtered products
-    console.log("Filtered products:", filteredProducts);
 
     if (isLoading) return <CircularProgress />;
     if (error) return <div>Error: {error}</div>;
@@ -94,7 +90,6 @@ function Products() {
         <>
             <Header />
             <ThemeProvider theme={theme}>
-                {/* Updated Tabs component with bottom border */}
                 <Box sx={{ width: "70%", margin: "0 auto", mb: 2 }}>
                     <Tabs
                         value={currentTab}
